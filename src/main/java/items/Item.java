@@ -1,95 +1,60 @@
 package src.main.java.items;
 
-public class Item {
-    private static final int MAX_STACK = 20;
+import java.util.Objects;
 
+public class Item implements Comparable<Item>, Cloneable {
     private String name;
     private String description;
     private EffectType effect;
-    private int amount;
+    private int quantity;
 
-    public Item(String name, String description, EffectType effect, int amount) {
+    public Item(String name, String description, EffectType effect, int quantity) {
         this.name = name;
         this.description = description;
         this.effect = effect;
-        this.amount = amount;
+        this.quantity = quantity;
     }
 
-    // getters
-    public String getName() {
-        return this.name;
+    public Item(Item other) {
+        this.name = other.name;
+        this.description = other.description;
+        this.effect = other.effect;
+        this.quantity = other.quantity;
     }
 
-    public String getDescription() {
-        return this.description;
-    }
+    public String getName() { return name; }
+    public String getDescription() { return description; }
+    public EffectType getEffect() { return effect; }
+    public int getQuantity() { return quantity; }
 
-    public EffectType getEffect() {
-        return this.effect;
-    }
+    public void increaseQuantity(int amount) { this.quantity += amount; }
+    public void decreaseQuantity(int amount) { this.quantity = Math.max(0, this.quantity - amount); }
 
-    public int getAmount() {
-        return this.amount;
-    }
-
-    public void addAmount(int value) throws IllegalArgumentException {
-
-        if (value < 0) {
-            throw new IllegalArgumentException("Value to add must be non-negative");
-        }
-
-        if (this.amount + value > MAX_STACK) {
-            throw new IllegalArgumentException("You cannot have more than " + MAX_STACK + " items of the same type.");
-        }
-
-        this.amount += value;
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item)) return false;
+        Item item = (Item) o;
+        return Objects.equals(name, item.name) && effect == item.effect;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null) return false;
-        if (obj.getClass() != this.getClass()) return false;
-
-        Item other = (Item) obj;
-
-        if (this.amount != other.amount) return false;
-        if (this.effect != other.effect) return false;
-
-        if (this.name == null) {
-            if (other.name != null) return false;
-        } else if (!this.name.equals(other.name)) return false;
-
-        if (this.description == null) {
-            if (other.description != null) return false;
-        } else if (!this.description.equals(other.description)) return false;
-
-        return true;
+    public int hashCode() {
+        return Objects.hash(name, effect);
     }
 
     @Override
-    public int hashCode ()
-    {
-        int hash = 33;
- 
-        hash = hash * 2 + (this.name == null ? 0 : this.name.hashCode());
-        hash = hash * 5 + (this.description == null ? 0 : this.description.hashCode());
-        hash = hash * 7 + (this.effect == null ? 0 : this.effect.hashCode());
-        hash = hash * 11 + Integer.hashCode(this.amount);
+    public int compareTo(Item other) {
+        return this.name.compareToIgnoreCase(other.name);
+    }
 
-        if (hash < 0) hash = -hash;
-
-        return hash;
+    @Override
+    public Item clone() {
+        return new Item(this);
     }
 
     @Override
     public String toString() {
-        return "Item{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", effect=" + effect +
-                ", amount=" + amount +
-                '}';
+        return name + " (" + description + ") x" + quantity;
     }
 }
