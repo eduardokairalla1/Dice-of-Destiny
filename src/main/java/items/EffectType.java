@@ -1,29 +1,30 @@
+/**
+ * Represents the various effects an item can have in the game.
+ */
+
 package src.main.java.items;
 
+
+// --- CODE ---
 public enum EffectType {
+
+    // --- ENUMERATED TYPES ---
     HEAL("Restores health points (HP)"),
-    DAMAGE("Deals damage to target"),
     ATTACK_BOOST("Increases attack power"),
     DEFENSE_BOOST("Increases defense"),
-    SPEED_BOOST("Increases movement or attack speed"),
-    CRITICAL_CHANCE_BOOST("Increases critical hit chance"),
-    POISON("Deals damage over time"),
-    BURN("Deals fire damage over time"),
-    FREEZE("Prevents target from acting for a short time"),
-    STUN("Stuns target, disabling actions"),
-    SHIELD("Adds temporary hit points or absorbs damage"),
-    REGENERATION("Gradually restores HP over time"),
-    MANA_RESTORE("Restores mana points (MP)"),
-    INVISIBILITY("Makes target invisible or untargetable"),
-    CONFUSION("Causes target to act randomly"),
-    BLEED("Deals physical damage over time");
+    REGENERATION("Gradually restores HP over time");
 
+    // --- ATTRIBUTES ---
     private final String description;
 
+
+    // --- CONSTRUCTOR ---
     EffectType(String description) {
         this.description = description;
     }
 
+
+    // --- GETTER ---
     public String getDescription() {
         return description;
     }
