@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Script to build and run project
+
+echo "Cleaning build directory..."
+rm -rf build/*
+
+echo "Building project..."
+find src/main/java -name "*.java" -type f | xargs javac -d build
+
+if [ $? -eq 0 ]; then
+    echo "Build successful! Running project..."
+    echo ""
+    java -cp build src.main.java.Main
+else
+    echo "Build failed!"
+    exit 1
+fi
